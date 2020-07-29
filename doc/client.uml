@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>wordquizzle.client</OriginalElement>
+  <nodes>
+    <node x="114.0" y="0.0">wordquizzle.client.CLICommand</node>
+    <node x="28.0" y="155.0">wordquizzle.client.CommandHandler</node>
+    <node x="0.0" y="80.0">wordquizzle.client.AddFriendHandler</node>
+    <node x="147.0" y="412.0">wordquizzle.client.Main</node>
+    <node x="0.0" y="235.0">wordquizzle.client.DefaultCommandHandler</node>
+    <node x="245.0" y="310.0">wordquizzle.client.ClientConnections</node>
+    <node x="0.0" y="310.0">wordquizzle.client.RemoteHandlerClient</node>
+    <node x="196.0" y="80.0">wordquizzle.client.LoginHandler</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="wordquizzle.client.DefaultCommandHandler" target="wordquizzle.client.CommandHandler">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="wordquizzle.client.AddFriendHandler" target="wordquizzle.client.CLICommand">
+      <point x="0.0" y="-15.0" />
+      <point x="88.0" y="55.0" />
+      <point x="146.0" y="55.0" />
+      <point x="-32.0" y="15.0" />
+    </edge>
+    <edge source="wordquizzle.client.LoginHandler" target="wordquizzle.client.CLICommand">
+      <point x="0.0" y="-15.0" />
+      <point x="268.0" y="55.0" />
+      <point x="210.0" y="55.0" />
+      <point x="32.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="214.5" y="207.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
