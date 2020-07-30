@@ -67,8 +67,22 @@ class DefaultCommandHandler extends CommandHandler {
                 case "login":
                     new LoginHandler().manage(scanner);
                     break;
+                case "logout":
+                    new LogoutHandler().manage(scanner);
                 case "add_friend":
                     new AddFriendHandler().manage(scanner);
+                    break;
+                case "help":
+                    System.out.println(
+                                    "usage: COMMANDS [ ARGS ...]\n" +
+                                    "Commands:\n\n" +
+                                    "register <user> <password>\n" +
+                                    "    register user with the following password\n\n" +
+                                    "login <user> <password>\n" +
+                                    "    login with the user and password inserted\n\n" +
+                                    "add_friend <user> <password> <userFriend>\n" +
+                                    "    add the friend userFriend to the friends list of user\n"
+                    );
                     break;
                 default:
                     System.err.println("Invalid Command");

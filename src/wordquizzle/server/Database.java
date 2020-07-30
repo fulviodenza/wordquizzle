@@ -2,7 +2,9 @@ package wordquizzle.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import wordquizzle.UserState;
 import wordquizzle.server.exceptions.UserNotFound;
 
 import java.io.BufferedWriter;
@@ -11,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,7 +21,7 @@ public class Database {
     private static volatile Database database;
     private static Path dbFile;
     private static final ConcurrentHashMap<String, User> db = new ConcurrentHashMap<>();
-    private static final ArrayList<Long> onlineUsers = new ArrayList<>();
+    private static final ConcurrentHashMap<Long, User> onlineUsers = new ConcurrentHashMap<>();
 
     public static Gson createGsonBuilder() {
         return new GsonBuilder()
@@ -120,13 +121,21 @@ public class Database {
         }
     }
 
+    public static synchronized UserState getUserStatePid(long pid) {
+
+        try{
+            return onlineUsers.get(pid).getUserState();
+        } catch(NullPointerException e) {
+            return UserState.OFFLINE;
+        }
+    }
     /**
      * insertOnlineUsers method insert a process id to decide if a process
      * did the login
      * @param pid
      */
-    public static synchronized void insertOnlineUsers(long pid) {
-        onlineUsers.add(pid);
+    public static synchronized void insertOnlineUsers(long pid, User user) {
+        onlineUsers.put(pid, user);
     }
 
     /**
@@ -135,6 +144,8 @@ public class Database {
      * @return true if the pid is in the onlineUsers Array, false otherwise
      */
     public static synchronized boolean isOnline(long pid) {
-        return onlineUsers.contains(pid);
+        return onlineUsers.containsKey(pid);
     }
+
+    public static synchronized void removeOnlineUsers(long pid) { onlineUsers.remove(pid); }
 }

@@ -23,7 +23,8 @@ class LoginHandler extends CLICommand {
 
         String username = scanner.next();
         String password = scanner.next();
-        ClientConnections.write("login@"+username+":"+password);
+        String pid = Long.toString(ProcessHandle.current().pid());
+        ClientConnections.write(pid+"@login@"+username+":"+password);
     }
 }
 
@@ -41,6 +42,17 @@ class AddFriendHandler extends CLICommand {
         String username = scanner.next();
         String password = scanner.next();
         String usernameFriend = scanner.next();
-        ClientConnections.write("add_friend@"+username+":"+password+":"+usernameFriend);
+        String pid = Long.toString(ProcessHandle.current().pid());
+        ClientConnections.write(pid+"@add_friend@"+username+":"+password+":"+usernameFriend);
+    }
+}
+
+class LogoutHandler extends CLICommand {
+
+    public void manage(Scanner scanner) {
+
+        String username = scanner.next();
+        String pid = Long.toString(ProcessHandle.current().pid());
+        ClientConnections.write(pid+"@"+"logout@"+username);
     }
 }

@@ -18,6 +18,7 @@ class ServerLoginHandler extends ServerCommandHandler {
      * @param reg regular expression which contains user login credentials
      *            with the following format: "username:password"
      */
+
     public void manage(String reg) {
 
         String[] credentials = reg.split(":");
@@ -29,14 +30,18 @@ class ServerLoginHandler extends ServerCommandHandler {
         try {
             User user = Database.getUser(username);
 
+            //If the user is already ONLINE or if the user is logged in from another terminal
             if(user.getUserState() != UserState.OFFLINE || Database.isOnline(user.getPid())) {
                 System.out.println("Server: Already logged in");
                 return;
             }
+            System.out.println(Database.isOnline(IncomingCommand.s));
             if(userLogin.getPassword().equals(user.getPassword())) {
+
                 user.setUserState(UserState.ONLINE);
-                Database.insertOnlineUsers(user.getPid());
+                Database.insertOnlineUsers(IncomingCommand.s, user);
                 System.out.println("Server: Logged in!");
+                System.out.println(Database.isOnline(IncomingCommand.s));
             } else {
                 System.out.println("Server: Wrong password!");
                 return;
@@ -73,5 +78,25 @@ class ServerAddFriendHandler extends ServerCommandHandler {
         } catch (UserNotFound e) {
             e.printStackTrace();
         }
+    }
+}
+
+class ServerLogoutHandler extends ServerCommandHandler {
+
+    public void manage(String reg) {
+
+        try {
+            User u = Database.getUser(reg);
+            if(Database.isOnline(IncomingCommand.s) && u.getUserState() == UserState.ONLINE) {
+                Database.removeOnlineUsers(IncomingCommand.s);
+                u.setUserState(UserState.OFFLINE);
+                System.out.println("Logged out");
+            } else {
+                System.out.println("Already logged out");
+            }
+        } catch (UserNotFound e) {
+            e.printStackTrace();
+        }
+
     }
 }
