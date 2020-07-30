@@ -11,8 +11,6 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class UserRegister extends RemoteServer implements RegisterUserInterface {
 
-    private static volatile UserRegister ur;
-
     public UserRegister() {}
 
     public int register(String nickname, String password) {
@@ -30,7 +28,7 @@ public class UserRegister extends RemoteServer implements RegisterUserInterface 
     public void RemoteHandler(int port) {
 
         try {
-            ur = new UserRegister();
+            UserRegister ur = new UserRegister();
             UnicastRemoteObject.exportObject(ur, port);
             Registry registry = LocateRegistry.createRegistry(5455);
             registry.bind("RegisterUserInterface", ur);
