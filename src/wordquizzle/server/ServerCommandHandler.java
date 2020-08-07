@@ -8,7 +8,7 @@ public abstract class ServerCommandHandler {
     public abstract void manage(String reg, long s);
 }
 
-
+//TODO Insert response message to client
 class ServerLoginHandler extends ServerCommandHandler {
 
     /**

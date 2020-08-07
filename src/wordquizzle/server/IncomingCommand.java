@@ -59,7 +59,7 @@ class DefaultMessageHandler extends IncomingCommand {
                 new ServerLoginHandler().manage(pars, s);
                 break;
             default:
-                System.out.println("Invalid Command DEFAULT");
+                System.out.println("Login First!");
                 break;
         }
     }
