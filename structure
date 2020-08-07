@@ -1,0 +1,74 @@
+.
+├── doc
+│   ├── client.uml
+│   └── Untitled.mdj
+├── lib
+│   └── gson-2.6.2.jar
+├── out
+│   └── production
+│       ├── database.json
+│       └── wordquizzle
+│           └── wordquizzle
+│               ├── client
+│               │   ├── AddFriendHandler.class
+│               │   ├── CLICommand.class
+│               │   ├── ClientConnections.class
+│               │   ├── CommandHandler$1.class
+│               │   ├── CommandHandler.class
+│               │   ├── DefaultCommandHandler.class
+│               │   ├── LoginHandler.class
+│               │   ├── LogoutHandler.class
+│               │   ├── Main.class
+│               │   └── RemoteHandlerClient.class
+│               ├── RegisterUserInterface.class
+│               ├── server
+│               │   ├── Database$1.class
+│               │   ├── Database.class
+│               │   ├── DefaultMessageHandler.class
+│               │   ├── exceptions
+│               │   │   ├── AlreadyFriendsException.class
+│               │   │   ├── EmptyPassword.class
+│               │   │   ├── UserAlreadyPresent.class
+│               │   │   └── UserNotFound.class
+│               │   ├── IncomingCommand$1.class
+│               │   ├── IncomingCommand.class
+│               │   ├── LoggedInMessageHandler.class
+│               │   ├── Main.class
+│               │   ├── ServerAddFriendHandler.class
+│               │   ├── ServerCommandHandler.class
+│               │   ├── ServerConnections.class
+│               │   ├── ServerLoginHandler.class
+│               │   ├── ServerLogoutHandler.class
+│               │   ├── User$UserJsonDeserializer.class
+│               │   ├── User$UserJsonSerializer.class
+│               │   ├── User.class
+│               │   └── UserRegister.class
+│               └── UserState.class
+├── README.md
+├── src
+│   └── wordquizzle
+│       ├── client
+│       │   ├── CLICommand.java
+│       │   ├── ClientConnections.java
+│       │   ├── CommandHandler.java
+│       │   ├── Main.java
+│       │   └── RemoteHandlerClient.java
+│       ├── RegisterUserInterface.java
+│       ├── server
+│       │   ├── Database.java
+│       │   ├── exceptions
+│       │   │   ├── AlreadyFriendsException.java
+│       │   │   ├── EmptyPassword.java
+│       │   │   ├── UserAlreadyPresent.java
+│       │   │   └── UserNotFound.java
+│       │   ├── IncomingCommand.java
+│       │   ├── Main.java
+│       │   ├── ServerCommandHandler.java
+│       │   ├── ServerConnections.java
+│       │   ├── User.java
+│       │   └── UserRegister.java
+│       └── UserState.java
+├── structure
+└── wordquizzle.iml
+
+14 directories, 57 files

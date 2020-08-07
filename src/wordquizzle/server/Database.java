@@ -2,7 +2,6 @@ package wordquizzle.server;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import wordquizzle.UserState;
 import wordquizzle.server.exceptions.UserNotFound;
@@ -123,9 +122,9 @@ public class Database {
 
     public static synchronized UserState getUserStatePid(long pid) {
 
-        try{
-            return onlineUsers.get(pid).getUserState();
-        } catch(NullPointerException e) {
+        if(isOnline(pid)) {
+            return UserState.ONLINE;
+        } else {
             return UserState.OFFLINE;
         }
     }
@@ -135,6 +134,7 @@ public class Database {
      * @param pid
      */
     public static synchronized void insertOnlineUsers(long pid, User user) {
+        user.setUserState(UserState.ONLINE);
         onlineUsers.put(pid, user);
     }
 
@@ -144,6 +144,7 @@ public class Database {
      * @return true if the pid is in the onlineUsers Array, false otherwise
      */
     public static synchronized boolean isOnline(long pid) {
+
         return onlineUsers.containsKey(pid);
     }
 

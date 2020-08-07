@@ -5,7 +5,7 @@ import wordquizzle.server.exceptions.UserNotFound;
 
 public abstract class ServerCommandHandler {
 
-    public abstract void manage(String reg);
+    public abstract void manage(String reg, long s);
 }
 
 
@@ -19,7 +19,7 @@ class ServerLoginHandler extends ServerCommandHandler {
      *            with the following format: "username:password"
      */
 
-    public void manage(String reg) {
+    public void manage(String reg, long s) {
 
         String[] credentials = reg.split(":");
         String username = credentials[0];
@@ -31,17 +31,15 @@ class ServerLoginHandler extends ServerCommandHandler {
             User user = Database.getUser(username);
 
             //If the user is already ONLINE or if the user is logged in from another terminal
-            if(user.getUserState() != UserState.OFFLINE || Database.isOnline(user.getPid())) {
+            if(user.getUserState() != UserState.OFFLINE || Database.getUserStatePid(user.getPid()) == UserState.ONLINE) {
                 System.out.println("Server: Already logged in");
                 return;
             }
-            System.out.println(Database.isOnline(IncomingCommand.s));
             if(userLogin.getPassword().equals(user.getPassword())) {
 
                 user.setUserState(UserState.ONLINE);
-                Database.insertOnlineUsers(IncomingCommand.s, user);
+                Database.insertOnlineUsers(s, user);
                 System.out.println("Server: Logged in!");
-                System.out.println(Database.isOnline(IncomingCommand.s));
             } else {
                 System.out.println("Server: Wrong password!");
                 return;
@@ -59,7 +57,7 @@ class ServerAddFriendHandler extends ServerCommandHandler {
      * @param reg regular expression which contains user login credentials
      *            with the following format: "username:password:username"
      */
-    public void manage(String reg) {
+    public void manage(String reg, long s) {
 
         String[] credentials = reg.split(":");
         String username = credentials[0];
@@ -83,12 +81,12 @@ class ServerAddFriendHandler extends ServerCommandHandler {
 
 class ServerLogoutHandler extends ServerCommandHandler {
 
-    public void manage(String reg) {
+    public void manage(String reg, long s) {
 
         try {
             User u = Database.getUser(reg);
-            if(Database.isOnline(IncomingCommand.s) && u.getUserState() == UserState.ONLINE) {
-                Database.removeOnlineUsers(IncomingCommand.s);
+            if(Database.getUserStatePid(s) == UserState.ONLINE && u.getUserState() == UserState.ONLINE) {
+                Database.removeOnlineUsers(s);
                 u.setUserState(UserState.OFFLINE);
                 System.out.println("Logged out");
             } else {
@@ -97,6 +95,5 @@ class ServerLogoutHandler extends ServerCommandHandler {
         } catch (UserNotFound e) {
             e.printStackTrace();
         }
-
     }
 }
