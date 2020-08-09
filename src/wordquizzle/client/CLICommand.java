@@ -56,3 +56,13 @@ class LogoutHandler extends CLICommand {
         ClientConnections.write(pid+"@"+"logout@"+username);
     }
 }
+
+class FriendsListHandler extends CLICommand {
+
+    public void manage(Scanner scanner) {
+
+        String username = scanner.next();
+        String pid = Long.toString(ProcessHandle.current().pid());
+        ClientConnections.write(pid+"@"+"friends_list@"+username);
+    }
+}

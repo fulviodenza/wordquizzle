@@ -93,6 +93,7 @@ public class User {
         try{
             User friend = Database.getUser(username);
             friendsList.put(username, friend);
+            System.out.println("Friend Added");
         } catch(UserNotFound e) {
             e.printStackTrace();
         }
@@ -139,6 +140,13 @@ public class User {
         }
     }
 
+    public boolean isFriend(String nick) {
+        if(friendsList.containsKey(nick)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

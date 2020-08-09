@@ -53,6 +53,7 @@ public abstract class IncomingCommand {
 }
 
 class DefaultMessageHandler extends IncomingCommand {
+
     public static void manageDefaultCommand(String cmd, String pars, long s) {
         switch (cmd) {
             case "login":
@@ -74,6 +75,9 @@ class LoggedInMessageHandler extends IncomingCommand {
                 break;
             case "add_friend":
                 new ServerAddFriendHandler().manage(pars, s);
+                break;
+            case "friends_list":
+                new ServerPrintFriendsList().manage(pars, s);
                 break;
             default:
                 System.out.println("Invalid Command from Login");

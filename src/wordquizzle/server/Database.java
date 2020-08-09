@@ -148,5 +148,10 @@ public class Database {
         return onlineUsers.containsKey(pid);
     }
 
+    public static User getUserFromPid(long pid) throws UserNotFound {
+
+        return getUser(onlineUsers.get(pid).getNick());
+    }
+
     public static synchronized void removeOnlineUsers(long pid) { onlineUsers.remove(pid); }
 }

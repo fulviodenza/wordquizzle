@@ -72,6 +72,9 @@ class DefaultCommandHandler extends CommandHandler {
                 case "add_friend":
                     new AddFriendHandler().manage(scanner);
                     break;
+                case "friends_list":
+                    new FriendsListHandler().manage(scanner);
+                    break;
                 case "help":
                     System.out.println(
                                     "usage: COMMANDS [ ARGS ...]\n" +
@@ -81,7 +84,9 @@ class DefaultCommandHandler extends CommandHandler {
                                     "login <user> <password>\n" +
                                     "    login with the user and password inserted\n\n" +
                                     "add_friend <user> <password> <userFriend>\n" +
-                                    "    add the friend userFriend to the friends list of user\n"
+                                    "    add the friend userFriend to the friends list of user\n" +
+                                    "friends_list <user>\n" +
+                                    "    print the user's friends list\n"
                     );
                     break;
                 default:

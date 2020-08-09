@@ -52,7 +52,9 @@ public class ServerConnections {
                             inBuf.clear();
                             String cmd = new String(data, StandardCharsets.UTF_8).trim();
                             IncomingCommand.manageCommand(cmd);
-                        } else key.cancel();
+                        } else {
+                            key.cancel();
+                        }
                         //client.register(selector, SelectionKey.OP_WRITE);
                     }
                     if(key.isWritable()) {

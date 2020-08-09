@@ -3,6 +3,9 @@ package wordquizzle.server;
 import wordquizzle.UserState;
 import wordquizzle.server.exceptions.UserNotFound;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public abstract class ServerCommandHandler {
 
     public abstract void manage(String reg, long s);
@@ -69,8 +72,9 @@ class ServerAddFriendHandler extends ServerCommandHandler {
             User user = Database.getUser(username);
             User userFriend = Database.getUser(friend);
             //if userFriend exists and user credentials are correct
-            if(userFriend != null && user.getPassword().equals(u.getPassword())) {
+            if(userFriend != null && !user.isFriend(friend)) {
                 user.addFriend(friend);
+                userFriend.addFriend(username);
                 System.out.println("Friend added");
             }
         } catch (UserNotFound e) {
@@ -83,17 +87,27 @@ class ServerLogoutHandler extends ServerCommandHandler {
 
     public void manage(String reg, long s) {
 
-        try {
-            User u = Database.getUser(reg);
-            if(Database.getUserStatePid(s) == UserState.ONLINE && u.getUserState() == UserState.ONLINE) {
+            //User u = Database.getUser(reg);
+            if(Database.getUserStatePid(s) == UserState.ONLINE/*u.getUserState() == UserState.ONLINE*/) {
                 Database.removeOnlineUsers(s);
-                u.setUserState(UserState.OFFLINE);
+                //u.setUserState(UserState.OFFLINE);
                 System.out.println("Logged out");
             } else {
                 System.out.println("Already logged out");
             }
-        } catch (UserNotFound e) {
-            e.printStackTrace();
+
+    }
+}
+
+class ServerPrintFriendsList extends ServerCommandHandler {
+
+    public void manage(String reg, long s) {
+
+        try{
+            User u = Database.getUserFromPid(s);
+            System.out.println(u.getFriendsList().entrySet());
+        } catch (UserNotFound userNotFound) {
+            userNotFound.printStackTrace();
         }
     }
 }
