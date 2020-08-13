@@ -43,10 +43,13 @@ class ServerLoginHandler extends ServerCommandHandler {
                 user.setUserState(UserState.ONLINE);
                 Database.insertOnlineUsers(s, user);
                 System.out.println("Server: Logged in!");
+                ServerConnections.sendToClient(("Logged in").getBytes());
             } else {
                 System.out.println("Server: Wrong password!");
+                ServerConnections.sendToClient(("Wrong Password").getBytes());
                 return;
             }
+
         } catch(UserNotFound e) {
             e.printStackTrace();
         }

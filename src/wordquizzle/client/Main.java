@@ -26,6 +26,9 @@ public class Main {
             String username = bufferedReader.readLine();
             System.out.println(username);
             CommandHandler.getHandler(state).startCompute(username);
+            if(ClientConnections.read() != null){
+                System.out.println(ClientConnections.read());
+            }
         }
     }
 }

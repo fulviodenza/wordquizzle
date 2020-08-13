@@ -3,6 +3,7 @@ package wordquizzle.client;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.channels.*;
 import java.nio.charset.StandardCharsets;
 
@@ -15,6 +16,7 @@ public class ClientConnections extends Thread {
     private static ByteBuffer tbuff;
     private static SelectionKey tcpkey;
     private static Selector selector;
+    private static ByteBuffer inBuf;
 
     public ClientConnections(InetSocketAddress addr) {
 
@@ -60,6 +62,14 @@ public class ClientConnections extends Thread {
             client.write(tbuff);
             tbuff.compact();
         } else tcpkey.interestOps(SelectionKey.OP_READ);
+    }
+
+    static String read() {
+        String message = null;
+        if(inBuf.hasRemaining()) {
+            message = String.valueOf(inBuf.get());
+        }
+        return message;
     }
 
     /**

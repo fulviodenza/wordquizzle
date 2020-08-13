@@ -1,6 +1,8 @@
 package wordquizzle.server;
 
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
@@ -8,9 +10,19 @@ import java.nio.charset.StandardCharsets;
 
 public class ServerConnections {
 
-    Selector selector = Selector.open();
-    SelectionKey acceptKey;
+    static Selector selector;
+
+    static {
+        try {
+            selector = Selector.open();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static SelectionKey acceptKey;
     ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+    static SocketChannel client;
 
     public ServerConnections() throws IOException {}
 
@@ -31,7 +43,7 @@ public class ServerConnections {
                 selector.select();
                 if (acceptKey.isAcceptable()) {
                     ServerSocketChannel server = (ServerSocketChannel)acceptKey.channel();
-                    SocketChannel client = server.accept();
+                    client = server.accept();
                     if (client != null) {
                         System.out.println("Server: Accepted connection from" + client);
                         client.configureBlocking(false);
@@ -71,6 +83,31 @@ public class ServerConnections {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void sendToClient(byte[] message) {
+        Thread t = new Thread("Send-to-Client") {
+            public void run() {
+                try{
+                    System.out.println("SERVER MESSAGE");
+                    while(true) {
+                        if(selector.selectedKeys().size() > 0) {
+                            //acceptKey.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+                            acceptKey.interestOps();
+                            ByteBuffer outBuf = ByteBuffer.allocate(4096);
+                            String string = new String(message);
+                            outBuf.put(message);
+                            outBuf.flip();
+                            client.write(outBuf);
+                            System.out.println("Sent message: " + string);
+                        }
+                    }
+                } catch (CancelledKeyException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        t.run();
     }
 
     public void close() {
